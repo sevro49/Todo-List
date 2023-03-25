@@ -22,9 +22,58 @@
             crossorigin="anonymous"
         />
 
-        <title>Todo List</title>
+        <link rel="stylesheet" href="/resources/style.css" />
+
+        <title>To do List</title>
     </head>
     <body>
+        <!-- Page title -->
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <h1 class="page-title">To do App</h1>
+            </div>
+        </nav>
+
+        <!-- Tasks -->
+        <div class="container">
+            <div class="row">
+                <!-- Add Task -->
+                <div class="col-12">
+                    <form class="d-flex">
+                        <div class="input-group input-group-lg">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Add task"
+                            />
+                            <button
+                                class="btn btn-success rounded-end"
+                                type="submit"
+                            >
+                                Add
+                            </button>
+                            <button class="btn btn-danger ms-2 rounded">
+                                Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Task list -->
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <card class="card-header"> </card>
+                        <div class="card-body">
+                            <ul
+                                id="task-list"
+                                class="list-group list-group-flush"
+                            ></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="resources/script.js"></script>
 
         <!-- Javascript -->
