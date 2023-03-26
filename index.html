@@ -40,14 +40,16 @@
                 <!-- Add Task -->
                 <div class="col-12">
                     <form class="d-flex">
-                        <div class="input-group input-group-lg">
+                        <div class="input-group">
                             <input
                                 type="text"
                                 class="form-control"
+                                id="txtTaskName"
                                 placeholder="Add task"
                             />
                             <button
                                 class="btn btn-success rounded-end"
+                                id="addTask"
                                 type="submit"
                             >
                                 Add
@@ -63,11 +65,12 @@
                 <div class="col-12 my-3">
                     <div class="card">
                         <card class="card-header"> </card>
-                        <div class="card-body">
+                        <div class="card-body p-1">
                             <ul
                                 id="task-list"
                                 class="list-group list-group-flush"
-                            ></ul>
+                            >
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -82,5 +85,8 @@
             integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
             crossorigin="anonymous"
         ></script>
+
+        <!-- Custom JS -->
+        <script src="resources/script.js"></script>
     </body>
 </html>
