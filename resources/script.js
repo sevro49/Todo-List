@@ -21,7 +21,7 @@ function displayTask() {
     // to add tasks dynamically
     for (let task of taskList) {
         let li = `
-            <li class="list-group-item">
+            <li class=" task list-group-item">
                 <div class="form-check">
                     <input
                         type="checkbox"
@@ -37,6 +37,7 @@ function displayTask() {
             </li>
         `;
 
+        // adds li element before en ul
         ul.insertAdjacentHTML("beforeend", li);
     }
 }
