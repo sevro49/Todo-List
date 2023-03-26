@@ -5,6 +5,10 @@ let taskList = [
     { id: 4, taskTitle: "Task 4" },
 ];
 
+let editId;
+let isEditTask = false;
+let taskInput = document.querySelector("#txtTaskName");
+
 // to store tasks into local storage
 if (localStorage.getItem("taskList") !== null) {
     taskList = JSON.parse(localStorage.getItem("taskList"));
@@ -13,7 +17,7 @@ if (localStorage.getItem("taskList") !== null) {
 displayTask();
 
 function displayTask() {
-    ul = document.getElementById("task-list");
+    let ul = document.getElementById("task-list");
 
     //prevents adding extra tasks
     ul.innerHTML = "";
@@ -43,7 +47,12 @@ function displayTask() {
                     >
                         <i class="fa-solid fa-trash"></i>
                     </button>
-                    <button class="btn btn-edit">
+
+                    <button
+                        class="btn btn-edit"
+                        type="button"
+                        onclick='editTask(${task.id}, "${task.taskTitle}")'
+                    >
                     <i class="fa-solid fa-pen"></i>
                     </button>
                 </div>
@@ -57,27 +66,47 @@ function displayTask() {
 
 document.querySelector("#addTask").addEventListener("click", newTask);
 
+// Adds new task
 function newTask(event) {
-    let taskInput = document.querySelector("#txtTaskName");
-
     if (taskInput.value == "") {
         alert("You have to type something!");
     } else {
-        taskList.push({
-            id: taskList.length + 1,
-            taskTitle: taskInput.value,
-        });
-        taskInput.value = "";
+        if (!isEditTask) {
+            //adding
+            taskList.push({
+                id: taskList.length + 1,
+                taskTitle: taskInput.value,
+            });
+            taskInput.value = "";
+        } else {
+            for (let task of taskList) {
+                if (task.id == editId) {
+                    task.taskTitle = taskInput.value;
+                }
+                isEditTask = false;
+            }
+        }
+
         displayTask();
     }
     event.preventDefault();
 }
 
-function deleteTask(id){
+// Deletes task
+function deleteTask(id) {
     let deleteId;
 
-    deleteId = taskList.findIndex(task => task.id == id);
+    deleteId = taskList.findIndex((task) => task.id == id);
 
     taskList.splice(deleteId, 1);
     displayTask();
+}
+
+// Edit task
+function editTask(taskId, taskTitle) {
+    editId = taskId;
+    isEditTask = true;
+    taskInput.value = taskTitle;
+    taskInput.focus();
+    taskInput.classList.add("active");
 }
