@@ -34,6 +34,19 @@ function displayTask() {
                         >${task.taskTitle}</label
                     >
                 </div>
+
+                <div class="icons">
+                    <button 
+                        class="btn btn-trash"
+                        type="button"
+                        onclick="deleteTask(${task.id})"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button class="btn btn-edit">
+                    <i class="fa-solid fa-pen"></i>
+                    </button>
+                </div>
             </li>
         `;
 
@@ -58,4 +71,13 @@ function newTask(event) {
         displayTask();
     }
     event.preventDefault();
+}
+
+function deleteTask(id){
+    let deleteId;
+
+    deleteId = taskList.findIndex(task => task.id == id);
+
+    taskList.splice(deleteId, 1);
+    displayTask();
 }

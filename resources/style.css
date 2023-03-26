@@ -1,6 +1,5 @@
-
 /* to center page title */
-.page-title{
+.page-title {
     position: relative;
     top: 50%;
     left: 50%;
@@ -9,3 +8,24 @@
     text-align: center;
 }
 
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-trash {
+    color: #eb1313;
+}
+
+.btn-trash:hover {
+    color: #be0d0d;
+}
+
+.btn-edit {
+    color: #504e4e;
+}
+
+.btn-edit:hover {
+    color: #383636;
+}
