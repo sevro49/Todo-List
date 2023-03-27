@@ -7,7 +7,9 @@ let taskList = [
 
 let editId;
 let isEditTask = false;
-let taskInput = document.querySelector("#txtTaskName");
+
+const taskInput = document.querySelector("#txtTaskName");
+const btnClear = document.querySelector("#btnClear");
 
 // to store tasks into local storage
 if (localStorage.getItem("taskList") !== null) {
@@ -23,48 +25,53 @@ function displayTask() {
     ul.innerHTML = "";
 
     // to add tasks dynamically
-    for (let task of taskList) {
-        let li = `
-            <li class=" task list-group-item">
-                <div class="form-check">
-                    <input
-                        type="checkbox"
-                        class="form-check-input"
-                        id="${task.id} "
-                    />
-                    <label
-                        for="${task.id}"
-                        class="form-check-label"
-                        >${task.taskTitle}</label
-                    >
-                </div>
+    if (taskList.length == 0) {
+        ul.innerHTML = "<p class='p-3 m-0' >Task List is Empty!</p>";
+    } else {
+        for (let task of taskList) {
+            let li = `
+                    <li class=" task list-group-item">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="${task.id} "
+                            />
+                            <label
+                                for="${task.id}"
+                                class="form-check-label"
+                                >${task.taskTitle}</label
+                            >
+                        </div>
 
-                <div class="icons">
-                    <button 
-                        class="btn btn-trash"
-                        type="button"
-                        onclick="deleteTask(${task.id})"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+                        <div class="icons">
+                            <button 
+                                class="btn btn-trash"
+                                type="button"
+                                onclick="deleteTask(${task.id})"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
 
-                    <button
-                        class="btn btn-edit"
-                        type="button"
-                        onclick='editTask(${task.id}, "${task.taskTitle}")'
-                    >
-                    <i class="fa-solid fa-pen"></i>
-                    </button>
-                </div>
-            </li>
-        `;
+                            <button
+                                class="btn btn-edit"
+                                type="button"
+                                onclick='editTask(${task.id}, "${task.taskTitle}")'
+                            >
+                            <i class="fa-solid fa-pen"></i>
+                            </button>
+                        </div>
+                    </li>
+                `;
 
-        // adds li element before en ul
-        ul.insertAdjacentHTML("beforeend", li);
+            // adds li element before en ul
+            ul.insertAdjacentHTML("beforeend", li);
+        }
     }
 }
 
 document.querySelector("#addTask").addEventListener("click", newTask);
+btnClear.addEventListener("click", clear);
 
 // Adds new task
 function newTask(event) {
@@ -109,4 +116,9 @@ function editTask(taskId, taskTitle) {
     taskInput.value = taskTitle;
     taskInput.focus();
     taskInput.classList.add("active");
+}
+
+function clear() {
+    taskList.splice(0, taskList.length);
+    displayTask();
 }
