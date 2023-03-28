@@ -11,6 +11,9 @@ let isEditTask = false;
 const taskInput = document.querySelector("#txtTaskName");
 const btnClear = document.querySelector("#btnClear");
 
+document.querySelector("#addTask").addEventListener("click", newTask);
+btnClear.addEventListener("click", clear);
+
 // to store tasks into local storage
 if (localStorage.getItem("taskList") !== null) {
     taskList = JSON.parse(localStorage.getItem("taskList"));
@@ -70,8 +73,6 @@ function displayTask() {
     }
 }
 
-document.querySelector("#addTask").addEventListener("click", newTask);
-btnClear.addEventListener("click", clear);
 
 // Adds new task
 function newTask(event) {
@@ -118,6 +119,7 @@ function editTask(taskId, taskTitle) {
     taskInput.classList.add("active");
 }
 
+// Clears all tasks
 function clear() {
     taskList.splice(0, taskList.length);
     displayTask();
