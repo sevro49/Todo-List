@@ -1,9 +1,9 @@
-let taskList = [
-    { id: 1, taskTitle: "Task 1", status: "completed" },
-    { id: 2, taskTitle: "Task 2", status: "pending" },
-    { id: 3, taskTitle: "Task 3", status: "completed" },
-    { id: 4, taskTitle: "Task 4", status: "pending" },
-];
+let taskList = [];
+
+// to store tasks into local storage
+if (localStorage.getItem("taskList") !== null) {
+    taskList = JSON.parse(localStorage.getItem("taskList"));
+}
 
 let editId;
 let isEditTask = false;
@@ -14,11 +14,6 @@ const filters = document.querySelectorAll(".filters span");
 
 document.querySelector("#addTask").addEventListener("click", newTask);
 btnClear.addEventListener("click", clear);
-
-// to store tasks into local storage
-if (localStorage.getItem("taskList") !== null) {
-    taskList = JSON.parse(localStorage.getItem("taskList"));
-}
 
 // That's why we can see only selected filter's items
 displayTask(document.querySelector("span.active").id);
@@ -113,6 +108,7 @@ function newTask(event) {
             }
         }
         displayTask(document.querySelector("span.active").id);
+        localStorage.setItem("taskList", JSON.stringify(taskList));
     }
     event.preventDefault();
 }
@@ -125,6 +121,7 @@ function deleteTask(id) {
 
     taskList.splice(deleteId, 1);
     displayTask(document.querySelector("span.active").id);
+    localStorage.setItem("taskList", JSON.stringify(taskList));
 }
 
 // Edit task
@@ -139,6 +136,7 @@ function editTask(taskId, taskTitle) {
 // Clears all tasks
 function clear() {
     taskList.splice(0, taskList.length);
+    localStorage.setItem("taskList", JSON.stringify(taskList));
     displayTask();
 }
 
@@ -160,4 +158,9 @@ function updateStatus(selectedTask) {
             task.status = status;
         }
     }
+
+    // no need to change tabs to reload task status
+    displayTask(document.querySelector("span.active").id)
+
+    localStorage.setItem("taskList", JSON.stringify(taskList));
 }
