@@ -1,8 +1,8 @@
 let taskList = [
-    { id: 1, taskTitle: "Task 1" },
-    { id: 2, taskTitle: "Task 2" },
-    { id: 3, taskTitle: "Task 3" },
-    { id: 4, taskTitle: "Task 4" },
+    { id: 1, taskTitle: "Task 1", status: "completed" },
+    { id: 2, taskTitle: "Task 2", status: "pending" },
+    { id: 3, taskTitle: "Task 3", status: "completed" },
+    { id: 4, taskTitle: "Task 4", status: "pending" },
 ];
 
 let editId;
@@ -32,17 +32,20 @@ function displayTask() {
         ul.innerHTML = "<p class='p-3 m-0' >Task List is Empty!</p>";
     } else {
         for (let task of taskList) {
+            let completed = task.status == "completed" ? "checked" : "";
+
             let li = `
-                    <li class=" task list-group-item">
+                    <li class="task list-group-item">
                         <div class="form-check">
                             <input
                                 type="checkbox"
-                                class="form-check-input"
+                                onclick="updateStatus(this)"
+                                class="form-check-input" ${completed}
                                 id="${task.id} "
                             />
                             <label
                                 for="${task.id}"
-                                class="form-check-label"
+                                class="form-check-label ${completed}"
                                 >${task.taskTitle}</label
                             >
                         </div>
@@ -73,7 +76,6 @@ function displayTask() {
     }
 }
 
-
 // Adds new task
 function newTask(event) {
     if (taskInput.value == "") {
@@ -84,9 +86,11 @@ function newTask(event) {
             taskList.push({
                 id: taskList.length + 1,
                 taskTitle: taskInput.value,
+                status: "pending",
             });
             taskInput.value = "";
         } else {
+            //updating
             for (let task of taskList) {
                 if (task.id == editId) {
                     task.taskTitle = taskInput.value;
@@ -123,4 +127,24 @@ function editTask(taskId, taskTitle) {
 function clear() {
     taskList.splice(0, taskList.length);
     displayTask();
+}
+
+// Updates task status
+function updateStatus(selectedTask){
+    let label = selectedTask.nextElementSibling;
+    let status;
+
+    if(selectedTask.checked){
+        label.classList.add("checked");
+        status = "completed";
+    } else {
+        label.classList.remove("checked");
+        status = "pending";
+    }
+
+    for(let task of taskList){
+        if(task.id == selectedTask.id){
+            task.status = status;
+        }
+    }
 }
