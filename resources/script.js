@@ -41,7 +41,7 @@ function displayTask() {
                                 type="checkbox"
                                 onclick="updateStatus(this)"
                                 class="form-check-input" ${completed}
-                                id="${task.id} "
+                                id="${task.id}"
                             />
                             <label
                                 for="${task.id}"
