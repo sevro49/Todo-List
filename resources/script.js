@@ -10,6 +10,7 @@ let isEditTask = false;
 
 const taskInput = document.querySelector("#txtTaskName");
 const btnClear = document.querySelector("#btnClear");
+const filters = document.querySelectorAll(".filters span");
 
 document.querySelector("#addTask").addEventListener("click", newTask);
 btnClear.addEventListener("click", clear);
@@ -19,9 +20,10 @@ if (localStorage.getItem("taskList") !== null) {
     taskList = JSON.parse(localStorage.getItem("taskList"));
 }
 
-displayTask();
+// That's why we can see only selected filter's items
+displayTask(document.querySelector("span.active").id);
 
-function displayTask() {
+function displayTask(filter) {
     let ul = document.getElementById("task-list");
 
     //prevents adding extra tasks
@@ -34,7 +36,8 @@ function displayTask() {
         for (let task of taskList) {
             let completed = task.status == "completed" ? "checked" : "";
 
-            let li = `
+            if (filter == task.status || filter == "all") {
+                let li = `
                     <li class="task list-group-item">
                         <div class="form-check">
                             <input
@@ -70,10 +73,21 @@ function displayTask() {
                     </li>
                 `;
 
-            // adds li element before en ul
-            ul.insertAdjacentHTML("beforeend", li);
+                // adds li element before end of ul
+                ul.insertAdjacentHTML("beforeend", li);
+            }
         }
     }
+}
+
+// For filters
+for (let span of filters) {
+    span.addEventListener("click", function () {
+        document.querySelector("span.active").classList.remove("active");
+        span.classList.add("active");
+
+        displayTask(span.id);
+    });
 }
 
 // Adds new task
@@ -98,8 +112,7 @@ function newTask(event) {
                 isEditTask = false;
             }
         }
-
-        displayTask();
+        displayTask(document.querySelector("span.active").id);
     }
     event.preventDefault();
 }
@@ -111,7 +124,7 @@ function deleteTask(id) {
     deleteId = taskList.findIndex((task) => task.id == id);
 
     taskList.splice(deleteId, 1);
-    displayTask();
+    displayTask(document.querySelector("span.active").id);
 }
 
 // Edit task
@@ -130,11 +143,11 @@ function clear() {
 }
 
 // Updates task status
-function updateStatus(selectedTask){
+function updateStatus(selectedTask) {
     let label = selectedTask.nextElementSibling;
     let status;
 
-    if(selectedTask.checked){
+    if (selectedTask.checked) {
         label.classList.add("checked");
         status = "completed";
     } else {
@@ -142,8 +155,8 @@ function updateStatus(selectedTask){
         status = "pending";
     }
 
-    for(let task of taskList){
-        if(task.id == selectedTask.id){
+    for (let task of taskList) {
+        if (task.id == selectedTask.id) {
             task.status = status;
         }
     }
